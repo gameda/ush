@@ -1,0 +1,42 @@
+program prueba:
+
+var int x, y[2];
+var string f, g;
+
+
+method void imprimir(int x) {
+	print(x);
+}
+
+method int num(int d) {
+	var float h;
+	drawDot(d,d,red);
+	return d;
+}
+
+
+
+
+void main() {
+	var int i, j, k[3];
+	var float i2;
+	var char c;
+	var string s;
+	s = "hola";
+	i=1;
+	j=0;
+	j = i + j;
+
+	c = 'a';
+	num(j);
+	print(j);
+
+	if(s == s)
+	{
+		while(i < 4)
+		{
+			i = 7;
+		}
+	}
+
+}
