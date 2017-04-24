@@ -65,8 +65,8 @@ Rule 59    ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo
 Rule 60    salto_ciclo -> empty
 Rule 61    ciclo1 -> empty
 Rule 62    ciclo2 -> empty
-Rule 63    condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
-Rule 64    else -> ELSE LEFTB bloque condicion4 RIGHTB
+Rule 63    condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
+Rule 64    else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB
 Rule 65    else -> empty
 Rule 66    condicion1 -> exp
 Rule 67    condicion3 -> empty
@@ -107,9 +107,9 @@ Rule 101   dibujaPunto -> DRAW_DOT LEFTP exp COMMA exp COMMA color RIGHTP SEMICO
 Rule 102   dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 Rule 103   dibujaCirculo -> DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 Rule 104   dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-Rule 105   dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+Rule 105   dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 Rule 106   dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-Rule 107   dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+Rule 107   dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 Rule 108   color -> RED
 Rule 109   color -> BLUE
 Rule 110   color -> YELLOW
@@ -130,7 +130,7 @@ BOOLEAN              : 29
 CHAR                 : 28
 CHAR_CTE             : 97
 COLON                : 1
-COMMA                : 8 22 53 101 101 102 102 102 102 103 103 103 104 104 104 104 104 104 105 105 105 106 106 106 106 107 107 107 107 107 107 107 107
+COMMA                : 8 22 53 101 101 102 102 102 102 103 103 103 104 104 104 104 104 104 105 105 105 105 106 106 106 106 107 107 107 107 107 107 107 107 107
 CYAN                 : 114
 DIVISION             : 90
 DRAW_CIRCLE          : 103
@@ -196,7 +196,7 @@ ciclo2               : 59
 color                : 101 102 103 104 105 106 107
 condicion            : 32
 condicion1           : 63
-condicion3           : 63
+condicion3           : 64
 condicion4           : 64
 constante            : 93
 declara_var          : 2 4 7 24
@@ -212,7 +212,7 @@ empty                : 3 5 9 13 15 16 19 21 26 50 52 54 55 60 61 62 65 67 68 72 
 end_method           : 14
 escritura            : 36
 estatuto             : 25
-exp                  : 46 48 51 57 58 59 66 101 101 102 102 102 102 103 103 103 104 104 104 104 104 104 105 105 105 106 106 106 106 107 107 107 107 107 107 107 107
+exp                  : 46 48 51 57 58 59 66 101 101 102 102 102 102 103 103 103 104 104 104 104 104 104 105 105 105 105 106 106 106 106 107 107 107 107 107 107 107 107 107
 exp1                 : 71 73 74
 exp2                 : 75 77 78 79 80 81 82
 exp3                 : 83 85 86
@@ -916,7 +916,7 @@ state 59
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -928,9 +928,9 @@ state 59
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -1010,7 +1010,7 @@ state 62
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -1022,9 +1022,9 @@ state 62
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -1117,14 +1117,14 @@ state 64
 
 state 65
 
-    (105) dibujaCuadrado -> DRAW_SQUARE . LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE . LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     LEFTP           shift and go to state 109
 
 
 state 66
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL . LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL . LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     LEFTP           shift and go to state 110
 
@@ -1238,7 +1238,7 @@ state 74
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -1250,9 +1250,9 @@ state 74
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -1467,7 +1467,7 @@ state 86
 
 state 87
 
-    (63) condicion -> IF . LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> IF . LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
 
     LEFTP           shift and go to state 125
 
@@ -1875,7 +1875,7 @@ state 108
 
 state 109
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP . exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP . exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -1913,7 +1913,7 @@ state 109
 
 state 110
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -2261,7 +2261,7 @@ state 124
 
 state 125
 
-    (63) condicion -> IF LEFTP . condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> IF LEFTP . condicion1 RIGHTP LEFTB bloque RIGHTB else
     (66) condicion1 -> . exp
     (69) exp -> . llamada
     (70) exp -> . expresion
@@ -2773,14 +2773,14 @@ state 151
 
 state 152
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp . COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp . COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 183
 
 
 state 153
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 184
 
@@ -2918,7 +2918,7 @@ state 162
 
 state 163
 
-    (63) condicion -> IF LEFTP condicion1 . RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> IF LEFTP condicion1 . RIGHTP LEFTB bloque RIGHTB else
 
     RIGHTP          shift and go to state 196
 
@@ -3338,7 +3338,7 @@ state 182
 
 state 183
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA . exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA . exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -3376,7 +3376,7 @@ state 183
 
 state 184
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -3607,7 +3607,7 @@ state 195
 
 state 196
 
-    (63) condicion -> IF LEFTP condicion1 RIGHTP . LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> IF LEFTP condicion1 RIGHTP . LEFTB bloque RIGHTB else
 
     LEFTB           shift and go to state 225
 
@@ -4002,14 +4002,14 @@ state 210
 
 state 211
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp . COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp . COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 240
 
 
 state 212
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 241
 
@@ -4136,8 +4136,8 @@ state 222
 
     (49) llamada -> ID llamafun LEFTP args RIGHTP .
 
-    COMMA           reduce using rule 49 (llamada -> ID llamafun LEFTP args RIGHTP .)
     SEMICOLON       reduce using rule 49 (llamada -> ID llamafun LEFTP args RIGHTP .)
+    COMMA           reduce using rule 49 (llamada -> ID llamafun LEFTP args RIGHTP .)
     RIGHTP          reduce using rule 49 (llamada -> ID llamafun LEFTP args RIGHTP .)
     RIGHTSB         reduce using rule 49 (llamada -> ID llamafun LEFTP args RIGHTP .)
 
@@ -4165,7 +4165,7 @@ state 224
 
 state 225
 
-    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB . bloque RIGHTB condicion3 else
+    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB . bloque RIGHTB else
     (25) bloque -> . estatuto bloque
     (26) bloque -> . empty
     (32) estatuto -> . condicion
@@ -4183,7 +4183,7 @@ state 225
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -4195,9 +4195,9 @@ state 225
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -4415,7 +4415,7 @@ state 239
 
 state 240
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA . exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA . exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -4453,7 +4453,7 @@ state 240
 
 state 241
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -4689,7 +4689,7 @@ state 249
 
 state 250
 
-    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque . RIGHTB condicion3 else
+    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque . RIGHTB else
 
     RIGHTB          shift and go to state 260
 
@@ -4757,14 +4757,14 @@ state 252
 
 state 253
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp . COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 271
 
 
 state 254
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 272
 
@@ -4789,7 +4789,7 @@ state 255
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -4801,9 +4801,9 @@ state 255
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -4867,11 +4867,12 @@ state 259
 
 state 260
 
-    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB . condicion3 else
-    (67) condicion3 -> . empty
+    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB . else
+    (64) else -> . ELSE condicion3 LEFTB bloque condicion4 RIGHTB
+    (65) else -> . empty
     (116) empty -> .
 
-    ELSE            reduce using rule 116 (empty -> .)
+    ELSE            shift and go to state 278
     IF              reduce using rule 116 (empty -> .)
     WHILE           reduce using rule 116 (empty -> .)
     RETURN          reduce using rule 116 (empty -> .)
@@ -4886,8 +4887,8 @@ state 260
     DRAW_QUADRITERAL reduce using rule 116 (empty -> .)
     RIGHTB          reduce using rule 116 (empty -> .)
 
-    empty                          shift and go to state 278
-    condicion3                     shift and go to state 277
+    else                           shift and go to state 277
+    empty                          shift and go to state 279
 
 state 261
 
@@ -4900,7 +4901,7 @@ state 262
 
     (101) dibujaPunto -> DRAW_DOT LEFTP exp COMMA exp COMMA color . RIGHTP SEMICOLON
 
-    RIGHTP          shift and go to state 279
+    RIGHTP          shift and go to state 280
 
 
 state 263
@@ -4956,35 +4957,12 @@ state 270
 
     (103) dibujaCirculo -> DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
 
-    COMMA           shift and go to state 280
+    COMMA           shift and go to state 281
 
 
 state 271
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
-    (108) color -> . RED
-    (109) color -> . BLUE
-    (110) color -> . YELLOW
-    (111) color -> . PURPLE
-    (112) color -> . GREEN
-    (113) color -> . BLACK
-    (114) color -> . CYAN
-    (115) color -> . WHITE
-
-    RED             shift and go to state 269
-    BLUE            shift and go to state 261
-    YELLOW          shift and go to state 265
-    PURPLE          shift and go to state 264
-    GREEN           shift and go to state 263
-    BLACK           shift and go to state 267
-    CYAN            shift and go to state 266
-    WHITE           shift and go to state 268
-
-    color                          shift and go to state 281
-
-state 272
-
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA . exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -5020,6 +4998,44 @@ state 272
     operador2                      shift and go to state 96
     operador4                      shift and go to state 98
 
+state 272
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (69) exp -> . llamada
+    (70) exp -> . expresion
+    (49) llamada -> . ID llamafun LEFTP args RIGHTP
+    (71) expresion -> . operador1 exp1
+    (75) operador1 -> . operador2 exp2
+    (83) operador2 -> . operador3 exp3
+    (87) operador3 -> . operador4 exp4
+    (92) operador4 -> . ID
+    (93) operador4 -> . constante
+    (94) operador4 -> . LEFTP expresion RIGHTP
+    (95) constante -> . INT_CTE
+    (96) constante -> . FLOAT_CTE
+    (97) constante -> . CHAR_CTE
+    (98) constante -> . STRING_CTE
+    (99) constante -> . TRUE
+    (100) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 99
+    INT_CTE         shift and go to state 105
+    FLOAT_CTE       shift and go to state 107
+    CHAR_CTE        shift and go to state 101
+    STRING_CTE      shift and go to state 93
+    TRUE            shift and go to state 97
+    FALSE           shift and go to state 103
+
+    expresion                      shift and go to state 106
+    constante                      shift and go to state 102
+    llamada                        shift and go to state 100
+    exp                            shift and go to state 283
+    operador1                      shift and go to state 94
+    operador3                      shift and go to state 95
+    operador2                      shift and go to state 96
+    operador4                      shift and go to state 98
+
 state 273
 
     (59) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque . ciclo2 RIGHTB
@@ -5028,8 +5044,8 @@ state 273
 
     RIGHTB          reduce using rule 116 (empty -> .)
 
-    ciclo2                         shift and go to state 283
-    empty                          shift and go to state 284
+    ciclo2                         shift and go to state 284
+    empty                          shift and go to state 285
 
 state 274
 
@@ -5063,7 +5079,7 @@ state 274
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 285
+    exp                            shift and go to state 286
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
@@ -5101,7 +5117,7 @@ state 275
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 286
+    exp                            shift and go to state 287
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
@@ -5139,7 +5155,7 @@ state 276
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 287
+    exp                            shift and go to state 288
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
@@ -5147,57 +5163,61 @@ state 276
 
 state 277
 
-    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 . else
-    (64) else -> . ELSE LEFTB bloque condicion4 RIGHTB
-    (65) else -> . empty
-    (116) empty -> .
+    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .
 
-    ELSE            shift and go to state 289
-    IF              reduce using rule 116 (empty -> .)
-    WHILE           reduce using rule 116 (empty -> .)
-    RETURN          reduce using rule 116 (empty -> .)
-    ID              reduce using rule 116 (empty -> .)
-    PRINT           reduce using rule 116 (empty -> .)
-    DRAW_DOT        reduce using rule 116 (empty -> .)
-    DRAW_LINE       reduce using rule 116 (empty -> .)
-    DRAW_CIRCLE     reduce using rule 116 (empty -> .)
-    DRAW_TRIANGLE   reduce using rule 116 (empty -> .)
-    DRAW_SQUARE     reduce using rule 116 (empty -> .)
-    DRAW_RECTANGLE  reduce using rule 116 (empty -> .)
-    DRAW_QUADRITERAL reduce using rule 116 (empty -> .)
-    RIGHTB          reduce using rule 116 (empty -> .)
+    IF              reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    WHILE           reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    RETURN          reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    ID              reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    PRINT           reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_DOT        reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_LINE       reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_CIRCLE     reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_TRIANGLE   reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_SQUARE     reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_RECTANGLE  reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    DRAW_QUADRITERAL reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
+    RIGHTB          reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else .)
 
-    else                           shift and go to state 288
-    empty                          shift and go to state 290
 
 state 278
 
-    (67) condicion3 -> empty .
+    (64) else -> ELSE . condicion3 LEFTB bloque condicion4 RIGHTB
+    (67) condicion3 -> . empty
+    (116) empty -> .
 
-    ELSE            reduce using rule 67 (condicion3 -> empty .)
-    IF              reduce using rule 67 (condicion3 -> empty .)
-    WHILE           reduce using rule 67 (condicion3 -> empty .)
-    RETURN          reduce using rule 67 (condicion3 -> empty .)
-    ID              reduce using rule 67 (condicion3 -> empty .)
-    PRINT           reduce using rule 67 (condicion3 -> empty .)
-    DRAW_DOT        reduce using rule 67 (condicion3 -> empty .)
-    DRAW_LINE       reduce using rule 67 (condicion3 -> empty .)
-    DRAW_CIRCLE     reduce using rule 67 (condicion3 -> empty .)
-    DRAW_TRIANGLE   reduce using rule 67 (condicion3 -> empty .)
-    DRAW_SQUARE     reduce using rule 67 (condicion3 -> empty .)
-    DRAW_RECTANGLE  reduce using rule 67 (condicion3 -> empty .)
-    DRAW_QUADRITERAL reduce using rule 67 (condicion3 -> empty .)
-    RIGHTB          reduce using rule 67 (condicion3 -> empty .)
+    LEFTB           reduce using rule 116 (empty -> .)
 
+    empty                          shift and go to state 290
+    condicion3                     shift and go to state 289
 
 state 279
+
+    (65) else -> empty .
+
+    IF              reduce using rule 65 (else -> empty .)
+    WHILE           reduce using rule 65 (else -> empty .)
+    RETURN          reduce using rule 65 (else -> empty .)
+    ID              reduce using rule 65 (else -> empty .)
+    PRINT           reduce using rule 65 (else -> empty .)
+    DRAW_DOT        reduce using rule 65 (else -> empty .)
+    DRAW_LINE       reduce using rule 65 (else -> empty .)
+    DRAW_CIRCLE     reduce using rule 65 (else -> empty .)
+    DRAW_TRIANGLE   reduce using rule 65 (else -> empty .)
+    DRAW_SQUARE     reduce using rule 65 (else -> empty .)
+    DRAW_RECTANGLE  reduce using rule 65 (else -> empty .)
+    DRAW_QUADRITERAL reduce using rule 65 (else -> empty .)
+    RIGHTB          reduce using rule 65 (else -> empty .)
+
+
+state 280
 
     (101) dibujaPunto -> DRAW_DOT LEFTP exp COMMA exp COMMA color RIGHTP . SEMICOLON
 
     SEMICOLON       shift and go to state 291
 
 
-state 280
+state 281
 
     (103) dibujaCirculo -> DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
     (108) color -> . RED
@@ -5220,98 +5240,67 @@ state 280
 
     color                          shift and go to state 292
 
-state 281
-
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
-
-    RIGHTP          shift and go to state 293
-
-
 state 282
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+
+    COMMA           shift and go to state 293
+
+
+state 283
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 294
 
 
-state 283
+state 284
 
     (59) ciclo -> WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 . RIGHTB
 
     RIGHTB          shift and go to state 295
 
 
-state 284
+state 285
 
     (62) ciclo2 -> empty .
 
     RIGHTB          reduce using rule 62 (ciclo2 -> empty .)
 
 
-state 285
+state 286
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 296
 
 
-state 286
+state 287
 
     (102) dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 297
 
 
-state 287
+state 288
 
     (106) dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
 
     COMMA           shift and go to state 298
 
 
-state 288
-
-    (63) condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .
-
-    IF              reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    WHILE           reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    RETURN          reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    ID              reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    PRINT           reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_DOT        reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_LINE       reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_CIRCLE     reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_TRIANGLE   reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_SQUARE     reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_RECTANGLE  reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    DRAW_QUADRITERAL reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-    RIGHTB          reduce using rule 63 (condicion -> IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else .)
-
-
 state 289
 
-    (64) else -> ELSE . LEFTB bloque condicion4 RIGHTB
+    (64) else -> ELSE condicion3 . LEFTB bloque condicion4 RIGHTB
 
     LEFTB           shift and go to state 299
 
 
 state 290
 
-    (65) else -> empty .
+    (67) condicion3 -> empty .
 
-    IF              reduce using rule 65 (else -> empty .)
-    WHILE           reduce using rule 65 (else -> empty .)
-    RETURN          reduce using rule 65 (else -> empty .)
-    ID              reduce using rule 65 (else -> empty .)
-    PRINT           reduce using rule 65 (else -> empty .)
-    DRAW_DOT        reduce using rule 65 (else -> empty .)
-    DRAW_LINE       reduce using rule 65 (else -> empty .)
-    DRAW_CIRCLE     reduce using rule 65 (else -> empty .)
-    DRAW_TRIANGLE   reduce using rule 65 (else -> empty .)
-    DRAW_SQUARE     reduce using rule 65 (else -> empty .)
-    DRAW_RECTANGLE  reduce using rule 65 (else -> empty .)
-    DRAW_QUADRITERAL reduce using rule 65 (else -> empty .)
-    RIGHTB          reduce using rule 65 (else -> empty .)
+    LEFTB           reduce using rule 67 (condicion3 -> empty .)
 
 
 state 291
@@ -5342,14 +5331,30 @@ state 292
 
 state 293
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
+    (108) color -> . RED
+    (109) color -> . BLUE
+    (110) color -> . YELLOW
+    (111) color -> . PURPLE
+    (112) color -> . GREEN
+    (113) color -> . BLACK
+    (114) color -> . CYAN
+    (115) color -> . WHITE
 
-    SEMICOLON       shift and go to state 301
+    RED             shift and go to state 269
+    BLUE            shift and go to state 261
+    YELLOW          shift and go to state 265
+    PURPLE          shift and go to state 264
+    GREEN           shift and go to state 263
+    BLACK           shift and go to state 267
+    CYAN            shift and go to state 266
+    WHITE           shift and go to state 268
 
+    color                          shift and go to state 301
 
 state 294
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -5490,7 +5495,7 @@ state 298
 
 state 299
 
-    (64) else -> ELSE LEFTB . bloque condicion4 RIGHTB
+    (64) else -> ELSE condicion3 LEFTB . bloque condicion4 RIGHTB
     (25) bloque -> . estatuto bloque
     (26) bloque -> . empty
     (32) estatuto -> . condicion
@@ -5508,7 +5513,7 @@ state 299
     (44) estatuto -> . dibujaRectangulo
     (45) estatuto -> . dibujaCuadrilatero
     (116) empty -> .
-    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else
+    (63) condicion -> . IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else
     (59) ciclo -> . WHILE salto_ciclo LEFTP exp ciclo1 RIGHTP LEFTB bloque ciclo2 RIGHTB
     (46) return -> . RETURN exp SEMICOLON
     (47) lectura -> . ID ASSIGN READ LEFTP RIGHTP SEMICOLON
@@ -5520,9 +5525,9 @@ state 299
     (102) dibujaLinea -> . DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (103) dibujaCirculo -> . DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (104) dibujaTriangulo -> . DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> . DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (106) dibujaRectangulo -> . DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> . DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
     RIGHTB          reduce using rule 116 (empty -> .)
     IF              shift and go to state 87
@@ -5565,61 +5570,49 @@ state 300
 
 state 301
 
-    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
 
-    IF              reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    WHILE           reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    RETURN          reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    ID              reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    PRINT           reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_DOT        reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_LINE       reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_CIRCLE     reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_TRIANGLE   reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_SQUARE     reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_RECTANGLE  reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_QUADRITERAL reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    RIGHTB          reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    RIGHTP          shift and go to state 308
 
 
 state 302
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
 
-    COMMA           shift and go to state 308
+    COMMA           shift and go to state 309
 
 
 state 303
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA color RIGHTP SEMICOLON
 
-    COMMA           shift and go to state 309
+    COMMA           shift and go to state 310
 
 
 state 304
 
     (102) dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
 
-    RIGHTP          shift and go to state 310
+    RIGHTP          shift and go to state 311
 
 
 state 305
 
     (106) dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
 
-    RIGHTP          shift and go to state 311
+    RIGHTP          shift and go to state 312
 
 
 state 306
 
-    (64) else -> ELSE LEFTB bloque . condicion4 RIGHTB
+    (64) else -> ELSE condicion3 LEFTB bloque . condicion4 RIGHTB
     (68) condicion4 -> . empty
     (116) empty -> .
 
     RIGHTB          reduce using rule 116 (empty -> .)
 
-    condicion4                     shift and go to state 312
-    empty                          shift and go to state 313
+    condicion4                     shift and go to state 313
+    empty                          shift and go to state 314
 
 state 307
 
@@ -5642,7 +5635,14 @@ state 307
 
 state 308
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
+
+    SEMICOLON       shift and go to state 315
+
+
+state 309
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -5672,13 +5672,13 @@ state 308
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 314
+    exp                            shift and go to state 316
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
     operador4                      shift and go to state 98
 
-state 309
+state 310
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
@@ -5710,55 +5710,74 @@ state 309
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 315
+    exp                            shift and go to state 317
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
     operador4                      shift and go to state 98
 
-state 310
+state 311
 
     (102) dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
 
-    SEMICOLON       shift and go to state 316
-
-
-state 311
-
-    (106) dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
-
-    SEMICOLON       shift and go to state 317
+    SEMICOLON       shift and go to state 318
 
 
 state 312
 
-    (64) else -> ELSE LEFTB bloque condicion4 . RIGHTB
+    (106) dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
 
-    RIGHTB          shift and go to state 318
+    SEMICOLON       shift and go to state 319
 
 
 state 313
+
+    (64) else -> ELSE condicion3 LEFTB bloque condicion4 . RIGHTB
+
+    RIGHTB          shift and go to state 320
+
+
+state 314
 
     (68) condicion4 -> empty .
 
     RIGHTB          reduce using rule 68 (condicion4 -> empty .)
 
 
-state 314
-
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
-
-    COMMA           shift and go to state 319
-
-
 state 315
 
-    (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+    (105) dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
 
-    COMMA           shift and go to state 320
+    IF              reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    WHILE           reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    RETURN          reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    ID              reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    PRINT           reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_DOT        reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_LINE       reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_CIRCLE     reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_TRIANGLE   reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_SQUARE     reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_RECTANGLE  reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_QUADRITERAL reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    RIGHTB          reduce using rule 105 (dibujaCuadrado -> DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
 
 
 state 316
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+
+    COMMA           shift and go to state 321
+
+
+state 317
+
+    (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+
+    COMMA           shift and go to state 322
+
+
+state 318
 
     (102) dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
 
@@ -5777,7 +5796,7 @@ state 316
     RIGHTB          reduce using rule 102 (dibujaLinea -> DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
 
 
-state 317
+state 319
 
     (106) dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
 
@@ -5796,28 +5815,28 @@ state 317
     RIGHTB          reduce using rule 106 (dibujaRectangulo -> DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
 
 
-state 318
+state 320
 
-    (64) else -> ELSE LEFTB bloque condicion4 RIGHTB .
+    (64) else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .
 
-    IF              reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    WHILE           reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    RETURN          reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    ID              reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    PRINT           reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_DOT        reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_LINE       reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_CIRCLE     reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_TRIANGLE   reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_SQUARE     reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_RECTANGLE  reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    DRAW_QUADRITERAL reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
-    RIGHTB          reduce using rule 64 (else -> ELSE LEFTB bloque condicion4 RIGHTB .)
+    IF              reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    WHILE           reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    RETURN          reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    ID              reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    PRINT           reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_DOT        reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_LINE       reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_CIRCLE     reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_TRIANGLE   reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_SQUARE     reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_RECTANGLE  reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    DRAW_QUADRITERAL reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
+    RIGHTB          reduce using rule 64 (else -> ELSE condicion3 LEFTB bloque condicion4 RIGHTB .)
 
 
-state 319
+state 321
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -5847,13 +5866,13 @@ state 319
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 321
+    exp                            shift and go to state 323
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
     operador4                      shift and go to state 98
 
-state 320
+state 322
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
     (108) color -> . RED
@@ -5874,25 +5893,25 @@ state 320
     CYAN            shift and go to state 266
     WHITE           shift and go to state 268
 
-    color                          shift and go to state 322
-
-state 321
-
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA color RIGHTP SEMICOLON
-
-    COMMA           shift and go to state 323
-
-
-state 322
-
-    (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
-
-    RIGHTP          shift and go to state 324
-
+    color                          shift and go to state 324
 
 state 323
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON
+
+    COMMA           shift and go to state 325
+
+
+state 324
+
+    (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
+
+    RIGHTP          shift and go to state 326
+
+
+state 325
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA exp COMMA color RIGHTP SEMICOLON
     (69) exp -> . llamada
     (70) exp -> . expresion
     (49) llamada -> . ID llamafun LEFTP args RIGHTP
@@ -5922,27 +5941,27 @@ state 323
     expresion                      shift and go to state 106
     constante                      shift and go to state 102
     llamada                        shift and go to state 100
-    exp                            shift and go to state 325
+    exp                            shift and go to state 327
     operador1                      shift and go to state 94
     operador3                      shift and go to state 95
     operador2                      shift and go to state 96
     operador4                      shift and go to state 98
 
-state 324
+state 326
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
 
-    SEMICOLON       shift and go to state 326
+    SEMICOLON       shift and go to state 328
 
 
-state 325
+state 327
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA exp COMMA color RIGHTP SEMICOLON
 
-    COMMA           shift and go to state 327
+    COMMA           shift and go to state 329
 
 
-state 326
+state 328
 
     (104) dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
 
@@ -5961,9 +5980,54 @@ state 326
     RIGHTB          reduce using rule 104 (dibujaTriangulo -> DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
 
 
-state 327
+state 329
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . exp COMMA color RIGHTP SEMICOLON
+    (69) exp -> . llamada
+    (70) exp -> . expresion
+    (49) llamada -> . ID llamafun LEFTP args RIGHTP
+    (71) expresion -> . operador1 exp1
+    (75) operador1 -> . operador2 exp2
+    (83) operador2 -> . operador3 exp3
+    (87) operador3 -> . operador4 exp4
+    (92) operador4 -> . ID
+    (93) operador4 -> . constante
+    (94) operador4 -> . LEFTP expresion RIGHTP
+    (95) constante -> . INT_CTE
+    (96) constante -> . FLOAT_CTE
+    (97) constante -> . CHAR_CTE
+    (98) constante -> . STRING_CTE
+    (99) constante -> . TRUE
+    (100) constante -> . FALSE
+
+    ID              shift and go to state 104
+    LEFTP           shift and go to state 99
+    INT_CTE         shift and go to state 105
+    FLOAT_CTE       shift and go to state 107
+    CHAR_CTE        shift and go to state 101
+    STRING_CTE      shift and go to state 93
+    TRUE            shift and go to state 97
+    FALSE           shift and go to state 103
+
+    expresion                      shift and go to state 106
+    constante                      shift and go to state 102
+    llamada                        shift and go to state 100
+    exp                            shift and go to state 330
+    operador1                      shift and go to state 94
+    operador3                      shift and go to state 95
+    operador2                      shift and go to state 96
+    operador4                      shift and go to state 98
+
+state 330
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp . COMMA color RIGHTP SEMICOLON
+
+    COMMA           shift and go to state 331
+
+
+state 331
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA . color RIGHTP SEMICOLON
     (108) color -> . RED
     (109) color -> . BLUE
     (110) color -> . YELLOW
@@ -5982,37 +6046,37 @@ state 327
     CYAN            shift and go to state 266
     WHITE           shift and go to state 268
 
-    color                          shift and go to state 328
+    color                          shift and go to state 332
 
-state 328
+state 332
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color . RIGHTP SEMICOLON
 
-    RIGHTP          shift and go to state 329
-
-
-state 329
-
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
-
-    SEMICOLON       shift and go to state 330
+    RIGHTP          shift and go to state 333
 
 
-state 330
+state 333
 
-    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP . SEMICOLON
 
-    IF              reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    WHILE           reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    RETURN          reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    ID              reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    PRINT           reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_DOT        reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_LINE       reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_CIRCLE     reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_TRIANGLE   reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_SQUARE     reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_RECTANGLE  reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    DRAW_QUADRITERAL reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
-    RIGHTB          reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    SEMICOLON       shift and go to state 334
+
+
+state 334
+
+    (107) dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .
+
+    IF              reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    WHILE           reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    RETURN          reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    ID              reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    PRINT           reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_DOT        reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_LINE       reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_CIRCLE     reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_TRIANGLE   reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_SQUARE     reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_RECTANGLE  reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    DRAW_QUADRITERAL reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
+    RIGHTB          reduce using rule 107 (dibujaCuadrilatero -> DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON .)
 

@@ -84,7 +84,7 @@ reserved = {
 tokens += reserved.values()
 
 # Expresiones regulares de los tokens
-t_ignore    = '\n \t'
+t_ignore    = ' \t'
 t_LEFTSB = r'\['
 t_RIGHTSB = r'\]'
 t_COMMA = r'\,'
@@ -147,7 +147,7 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
     global intline
-    intline = t.lexer.lineno
+    intline = t.lexer.lineno;
 
 ###########################################################################
 #   t_error

@@ -15,6 +15,8 @@ if __name__ == '__main__':
             # Si concluye la revision exitosamente
             if (parserUsh.parse(data, tracking=True) == 'Correcto'):
                 print ('Lexico y sintaxis correcto');
+                execfile('maquina2.py')
+                print('Ejecucion terminada.')
         except EOFError:
             print(EOFError)
     else:

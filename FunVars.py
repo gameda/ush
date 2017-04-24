@@ -70,6 +70,9 @@ class Vars():
 	def getDireccion(self):
 		return self.direccion
 
+	def getValor(self):
+		return self.valor
+
 class Funcion():
 	def __init__(self, nombre, tipoReturn):
 		self.nombre = nombre

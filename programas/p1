@@ -1,8 +1,11 @@
 program p1:
 
+var int ush;
+var string cad;
+
 method int algo(int x)
 {
-	
+	ush = 5;
 	if(x == 1){
 
 		return 1; 
@@ -25,7 +28,7 @@ void main() {
 
 	var int i, j; 
 	var float x, y, z; 
-
+	
 	x = 7.3; 
 	y = 10;
 

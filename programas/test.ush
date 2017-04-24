@@ -1,0 +1,80 @@
+program test:
+
+var int i, j;
+var string cad, num, num2;
+var char cOp;
+var boolean funciona;
+
+method int suma(int x, int y)
+{
+	return x + y;
+}
+
+method string strSuma(string s, char s1, string s2)
+{
+	return s + s1 + s2;
+}
+
+method int sumaRec(int x)
+{
+	var int aux;
+	if(x == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		aux = sumaRec(x - 1);
+		return x + aux;
+	}
+}
+
+void main()
+{
+	var int sumX;
+	var string res;
+	funciona = false;
+	i = 1;
+	j = 2;
+	cad = "El resultado de ";
+	num = "1";
+	num2 = "2";
+	cOp = '+';
+
+	sumX = suma(i, j);
+	print(sumX);
+	res = strSuma(num, cOp, num2);
+	print(res);
+	res = cad + res;
+	print(res);
+	funciona = (sumX == 3);
+	if(funciona)
+	{
+		print("funciona if");
+		funciona = false;
+	}
+
+	if(funciona)
+	{
+
+	}
+	else
+	{
+		print("Funciona else");
+	}
+
+	while(sumX < 10)
+	{
+		print(sumX);
+		sumX = sumX + 1;
+	}
+	if(sumX == 10)
+	{
+		print("funciona while");
+	}
+
+	sumX = sumaRec(10);
+	print(sumX);
+
+
+}

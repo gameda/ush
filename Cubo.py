@@ -150,15 +150,15 @@ def getStrType(op):
 
 #Funcion regresa un valor inicial 
 def getValor(tipo):
-    if tipo == "int":
+    if tipo == INT:
         return 0
-    elif tipo == "float":
+    elif tipo == FLOAT:
         return 0.0
-    elif tipo == "char":
+    elif tipo == CHAR:
         return ''
-    elif tipo == "string":
+    elif tipo == STR:
         return ""
-    elif tipo == "boolean":
+    elif tipo == BOOL:
         return False
 
 

@@ -5,8 +5,6 @@ from FunVars import *     # Importar la clase de variables y funciones
 from Cubo import *        # Importar los identificadores numéricos asignados
 tokens = Scanner.tokens   # Lista de tokens
 import sys
-from Scanner import intline
-
 
 # Precedencia de los operadores
 precedence = (
@@ -70,8 +68,10 @@ pilaTipos = Pila()
 pilaOperandos = Pila()
 pilaOperadores = Pila()
 pilaSaltos = Pila()
-pilaRetorno = Pila()   
+pilaRetorno = Pila()
 
+#Funciones Especiales
+color = ""
 
 ###########################################################################
 #   existMetodos
@@ -172,7 +172,7 @@ def existVariableInParams(idVar, scope):
 
 ###########################################################################
 #   cuadruplo
-#  Crea cuadruplo y lo agrega a las lista de cuadrupos
+#  Crea cuadruplo y lo agrega a las lista de cuadruplos
 ###########################################################################
 def cuadruplo(p1, p2, p3, p4):
     global listCuadruplos
@@ -249,6 +249,7 @@ def p_programa(p):
         fun = diccionario_metodos.get(met).getParametros()
         for p in fun: 
             print (p.getNombre())
+    print "constantes"
     print constantes
     print pilaOperandos.getList()
     print pilaOperadores.getList()
@@ -269,8 +270,9 @@ def p_goto_main(p):
 def p_scopemain(p):
     'scopemain : empty'
     global scopeActual
+    global listCuadruplos
     scopeActual = "Main"
-    
+    listCuadruplos[0][3] = contCuadruplos
 
 ###########################################################################
 #   p_add_globales
@@ -278,8 +280,7 @@ def p_scopemain(p):
 ###########################################################################
 def p_globales(p):
     'globales : declara_var'
-
-
+    cuadruplo('GOTO', None, None, None)
 ###########################################################################
 #   p_declara_var
 #   Revisar cuales son las variables recibidas
@@ -319,7 +320,7 @@ def p_var(p):
         array = True
     if(scopeActual == "Global"):
         if not existVariableGlobal(p[1]):
-            addVariableGlobal(p[1], size, array, tipoActual)
+            addVariableGlobal(p[1], tipoActual, size, array)
     elif(scopeActual == "Main"):
         addVariableMain(p[1], tipoActual, size, array)
     else:
@@ -484,7 +485,7 @@ def p_return(p):
             diccionario_metodos[scopeActual].setCuadReturn(contTemp)
             contTemp = contTemp + 1
         cuad = diccionario_metodos[scopeActual].getCuadReturn()
-        cuadruplo("=", cuad, None, var)
+        cuadruplo("=", var, None, cuad)
         cuadruplo("RETURN", None, None, cuad)
         pilaOperandos.append(contTemp)
         cuadruplo("ENDPROC", None, None, None)
@@ -520,9 +521,15 @@ def p_llamada(p):
     'llamada : ID llamafun LEFTP args RIGHTP'
     global funcionLlamada
     global contParam
+    global pilaOperandos
+    global pilaTipos
     cuadruplo("GOSUB", None, None, diccionario_metodos[funcionLlamada].getCuadStart())
+    if diccionario_metodos[funcionLlamada].getTipoRetorno() != ERROR:
+        pilaTipos.append(diccionario_metodos[funcionLlamada].getTipoRetorno())
+        pilaOperandos.append(diccionario_metodos[funcionLlamada].getCuadReturn())
     funcionLlamada = ""
     contParam = 0
+
 
 def p_llamafun(p):
     'llamafun : empty'
@@ -560,7 +567,8 @@ def p_param(p):
         tipo = pilaTipos.pop()
         var = pilaOperandos.pop()
         if(diccionario_metodos[funcionLlamada].getParametro(contParam).getTipo() == tipo):
-            cuadruplo("PARAM",None, None, var)
+            cuadruplo("PARAM",contParam, None, var)
+            contParam = contParam + 1
         else:
             error_types(p)
     else:
@@ -579,6 +587,7 @@ def p_asignacion(p):
     if(dicGlobal.has_key(p[1])):
         var = dicGlobal.get(p[1]).getDireccion()
         tipo = dicGlobal.get(p[1]).getTipo()
+        #print( var, tipo, p[1])
     elif(dicMain.has_key(p[1])):
         var = dicMain.get(p[1]).getDireccion()
         tipo = dicMain.get(p[1]).getTipo()
@@ -589,11 +598,11 @@ def p_asignacion(p):
         error_variable_nodeclared(p[1])
     #print pilaTipos.getList(), p[1], tipo, pilaTipos.top()
     if(resultante(tipo, pilaTipos.top(), IGUAL) != ERROR):
-        cuadruplo("=", var, None, pilaOperandos.pop())
+        cuadruplo("=", pilaOperandos.pop(), None, var)
         pilaTipos.pop()
         pilaOperadores.pop()
     else:
-        error_semantic(intline)
+        error_semantic(p)
     #if pilaOperadores[-1] == "=":
         #cuadruplo(pilaOperadores[-1],  constantes.get(FLOAT), None, pilaOperandos[-1])
 
@@ -663,10 +672,10 @@ def p_ciclo2(p):
 #   Regla para las condicionales
 ###########################################################################
 def p_condicion(p):
-    'condicion : IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB condicion3 else'
+    'condicion : IF LEFTP condicion1 RIGHTP LEFTB bloque RIGHTB else'
 
 def p_else(p):
-    'else : ELSE LEFTB bloque condicion4 RIGHTB'
+    'else : ELSE condicion3 LEFTB bloque condicion4 RIGHTB'
 
 def p_else_vacio(p):
     'else : empty'
@@ -708,7 +717,6 @@ def p_condicion3(p):
 def p_condicion4(p):
     'condicion4 : empty'
     global pilaSaltos
-    print pilaSaltos.getList()
     pos = pilaSaltos.pop()
     asignaSalto(contCuadruplos, pos)
 
@@ -925,7 +933,8 @@ def p_constante_true(p):
     global pilaTipos
     global pilaOperandos
     pilaTipos.append(BOOL)
-    pilaOperandos.append(p[1].replace('\'',''))
+    val = True if p[1].replace('\'','') == 'true' else False
+    pilaOperandos.append(val)
 
 
 ###########################################################################
@@ -934,25 +943,82 @@ def p_constante_true(p):
 ###########################################################################
 def p_dibujaPunto(p): 
     'dibujaPunto : DRAW_DOT LEFTP exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    y2 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("DOT", x1, y2, color)
 
 def p_dibujaLinea(p): 
     'dibujaLinea : DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    y2 = pilaOperandos.pop()
+    x2 = pilaOperandos.pop()
+    y2 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("LINE", x1, y1, color)
+    cuadruplo(x2, y2, w, None)
 
 def p_dibujaCirculo(p): 
     'dibujaCirculo : DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    val3 = pilaOperandos.pop()
+    val2 = pilaOperandos.pop()
+    val1 = pilaOperandos.pop()
+    cuadruplo("CIR", val1, val2, val3)
+    cuadruplos(color, w, None, None)
 
 def p_dibujaTriangulo(p): 
     'dibujaTriangulo : DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    y3 = pilaOperandos.pop()
+    x3 = pilaOperandos.pop()
+    y2 = pilaOperandos.pop()
+    x2 = pilaOperandos.pop()
+    y1 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("TRI", x1, y1, color)
+    cuadruplo(x2, y2, x3, y3)
+    cuadruplo(w, None, None, None)
 
 def p_dibujaCuadrado(p): 
-    'dibujaCuadrado : DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    'dibujaCuadrado : DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    l = pilaOperandos.pop()
+    y1 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("SQUARE", x1, y1, color)
+    cuadruplo(x1, y1, l, w)
 
 def p_dibujaRectangulo(p): 
     'dibujaRectangulo : DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
-
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    y2 = pilaOperandos.pop()
+    x2 = pilaOperandos.pop()
+    y1 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("RECT", x1, y1, color)
+    cuadruplo(x2, y2, w, None)
 def p_dibujaCuadrilatero(p): 
-    'dibujaCuadrilatero : DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
-
+    'dibujaCuadrilatero : DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    global pilaOperandos
+    w = pilaOperandos.pop()
+    y4 = pilaOperandos.pop()
+    x4 = pilaOperandos.pop()
+    y3 = pilaOperandos.pop()
+    x3 = pilaOperandos.pop()
+    y2 = pilaOperandos.pop()
+    x2 = pilaOperandos.pop()
+    y1 = pilaOperandos.pop()
+    x1 = pilaOperandos.pop()
+    cuadruplo("QUAD", x1, y1, color)
+    cuadruplo(x2, y2, x3, y3)
+    cuadruplo(x4, y4, w, None)
+    
 def p_color(p):
     '''color : RED 
         | BLUE 
@@ -962,7 +1028,8 @@ def p_color(p):
         | BLACK 
         | CYAN 
         | WHITE'''
-
+    global color
+    color = p[1].replace('\'','')
 
 
 ###########################################################################
@@ -980,7 +1047,7 @@ def p_error(p):
     if p:
         print("Syntax error at '%s' " % p.value)
         from Scanner import intline
-        print("in line " + str(p.lineno))
+        print("in line " + str(intline))
         sys.exit()
     else:
         print("Syntax error at EOF")
@@ -999,7 +1066,7 @@ def error_variable_nodeclared(var):
     sys.exit()
 
 def error_semantic(p): 
-    print ("It is not possible realize the operation at line: %s " % p)
+    print ("It is not possible realize the operation at line: %s " % p.lexer.lineno)
     sys.exit()
 
 def error_types(p):
