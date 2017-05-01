@@ -198,7 +198,7 @@ def scopeVar(direc):
 
 	elif dicGlobal.has_key(direc): #Si encuentra un llave en las variables globales retorna 0
 		return 0
-	elif (direc >= 21000000 and direc < 30000000):
+	elif (direc >= 21000000 and direc < 30000000): #Si es un temporal
 		return 2
 	else:
 		return -1
@@ -393,11 +393,11 @@ if __name__ == "__main__":
 				else:
 					varsFun[lista[0]][lista[1]] = res1
 				funcMem[Scope][1] = varsFun
-			elif var == 2:
-				asignarTemporales(res1, val4)
 			elif(isinstance(valorDireccion(val4), list)):
 				direc = valorDireccion(val4)
 				funcMem[Scope][1][direc[0]][direc[1]] = res1
+			elif var == 2:
+				asignarTemporales(res1, val4)
 				
 		elif cuadruplo[0] == 'READ':
 			res1 = float(input())

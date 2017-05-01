@@ -73,6 +73,9 @@ pilaRetorno = Pila()
 #Funciones Especiales
 color = ""
 
+#Arreglos
+isArray = False
+
 ###########################################################################
 #   existMetodos
 #   Revisa si un identificador existe en el diccionario de métodos
@@ -584,6 +587,7 @@ def p_asignacion(p):
     global pilaTipos
     global pilaOperadores
     global pilaOperandos
+    global isArray
     if(dicGlobal.has_key(p[1])):
         var = dicGlobal.get(p[1]).getDireccion()
         tipo = dicGlobal.get(p[1]).getTipo()
@@ -598,9 +602,11 @@ def p_asignacion(p):
         error_variable_nodeclared(p[1])
     #print pilaTipos.getList(), p[1], tipo, pilaTipos.top()
     if(resultante(tipo, pilaTipos.top(), IGUAL) != ERROR):
+        var = (contTemp - 1) if isArray else var
         cuadruplo("=", pilaOperandos.pop(), None, var)
         pilaTipos.pop()
         pilaOperadores.pop()
+        isArray = False
     else:
         error_semantic(p)
     #if pilaOperadores[-1] == "=":
@@ -612,6 +618,13 @@ def p_asignacion(p):
 
 def p_asignacion_array(p):
     'asignacion : ID LEFTSB exp RIGHTSB asign'
+    global contTemp
+    global isArray
+    cuadruplo('VAL', p[-1], None, contTemp)
+    cuadruplo('VER', p[-1], const_int - 1, contTemp + 1)
+    cuadruplo('RES', p[-1], contTemp + 1, contTemp + 2)
+    contTemp = contTemp + 3
+    isArray = True
     
 def p_asign(p):
     'asign : ASSIGN exp SEMICOLON'
@@ -831,12 +844,13 @@ def p_saveop(p):
 ###########################################################################
 
 def p_operador4_id(p):
-    'operador4 : ID'
+    'operador4 : ID idarray'
     global pilaOperandos
     global pilaVariables
     global pilaTipos
     global vars_dir
     global vars_dir_global
+    global isArray
     scope = dicGlobal.has_key(p[1])
     if (scope or dicMain.has_key(p[1])):
         if scope:
@@ -862,13 +876,27 @@ def p_operador4_id(p):
         error_variable_nodeclared(p[1])
 
     pilaTipos.append(tipo)
-    pilaOperandos.append(var)
+    if isArray:
+        pilaOperandos.append(contTemp - 1)
+        isArray = False
+    else:
+        pilaOperandos.append(var)
 
+def p_idarray_empty(p):
+    'idarray : empty'
+
+def p_idarray_full(p):
+    'idarray : LEFTSB INT_CTE RIGHTSB'
+    global contTemp
+    global isArray
+    cuadruplo('VAL', p[-1], None, contTemp)
+    cuadruplo('VER', p[-1], const_int - 1, contTemp + 1)
+    cuadruplo('RES', p[-1], contTemp + 1, contTemp + 2)
+    contTemp = contTemp + 3
+    isArray = True
 
 def p_operador4_cons(p):
     'operador4 : constante'
-
-
 
 def p_operador4_exp(p):
     'operador4 : LEFTP expresion RIGHTP'
@@ -949,7 +977,7 @@ def p_dibujaPunto(p):
     cuadruplo("DOT", x1, y2, color)
 
 def p_dibujaLinea(p): 
-    'dibujaLinea : DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    'dibujaLinea : DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
     w = pilaOperandos.pop()
     y2 = pilaOperandos.pop()
@@ -960,7 +988,7 @@ def p_dibujaLinea(p):
     cuadruplo(x2, y2, w, None)
 
 def p_dibujaCirculo(p): 
-    'dibujaCirculo : DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    'dibujaCirculo : DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
     w = pilaOperandos.pop()
     val3 = pilaOperandos.pop()
@@ -970,7 +998,7 @@ def p_dibujaCirculo(p):
     cuadruplos(color, w, None, None)
 
 def p_dibujaTriangulo(p): 
-    'dibujaTriangulo : DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    'dibujaTriangulo : DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
     w = pilaOperandos.pop()
     y3 = pilaOperandos.pop()
@@ -994,7 +1022,7 @@ def p_dibujaCuadrado(p):
     cuadruplo(x1, y1, l, w)
 
 def p_dibujaRectangulo(p): 
-    'dibujaRectangulo : DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
+    'dibujaRectangulo : DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
     w = pilaOperandos.pop()
     y2 = pilaOperandos.pop()
