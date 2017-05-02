@@ -1,0 +1,56 @@
+program find:
+
+var int arr[5];
+
+method void find(int x)
+{
+	var int cont, res;
+	res = 0;
+	cont = 0;
+	while(cont < 5)
+	{
+		if(arr[cont] == x)
+		{
+			res = cont;
+			cont = 5;
+		}
+		cont = cont + 1;
+	}
+	if(res < 5)
+	{
+		print("El valor");
+		print(x);
+		print("Se encuentra en la casilla");
+		print(res);
+	}
+	else
+	{
+		print("El valor");
+		print(x);
+		print("no existe en el arreglo");
+	}
+}
+
+void main()
+{
+	var int cont, valor, aux;
+	cont = 0;
+	while(cont < 5)
+	{
+		print("inserte valor de la casilla");
+		print(cont);
+		aux = read();
+		arr[cont] = aux;
+		cont = cont + 1;
+	}
+	print("Los valores del arreglo son:");
+	cont = 0;
+	while(cont < 5)
+	{
+		print(arr[cont]);
+		cont = cont + 1;
+	}
+	print("Ingrese valor que desee buscar");
+	aux = read();
+	find(aux);
+}

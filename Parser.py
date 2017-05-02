@@ -247,7 +247,7 @@ def p_programa(p):
     'programa :  PROGRAM ID COLON globales metodos goto_main'
     cuadruplo("END", None, None, None)
     p[0] = 'Correcto'
-
+    """
     print "global"
     for s in dicGlobal:
         print dicGlobal.get(s).getNombre()
@@ -269,11 +269,12 @@ def p_programa(p):
     print pilaOperandos.getList()
     print pilaOperadores.getList()
     print pilaTipos.getList()
+    print pilaSaltos.getList()
     pos = 0
     for i in listCuadruplos:
         print pos, i
         pos = pos + 1
-
+    """
 ###########################################################################
 #   p_goto_main
 #   Regla que sirve para aclarar que el primer método de la función debe
@@ -726,6 +727,9 @@ def p_else(p):
 
 def p_else_vacio(p):
     'else : empty'
+    global pilaSaltos
+    pos = pilaSaltos.pop()
+    asignaSalto(contCuadruplos, pos)
 
 ###########################################################################
 #   p_condicion1
