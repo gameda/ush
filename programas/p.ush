@@ -106,4 +106,7 @@ void main()
 	sumX = factorial(5);
 	print(sumX);
 
+	print("Inserta un valor");
+	sumX = read();
+
 }

@@ -411,6 +411,7 @@ if __name__ == "__main__":
 		elif cuadruplo[0] == 'READ':
 			res1 = input()
 			var = scopeVar(val4)
+			print(type(res1), getTypeLanguage(val3))
 			if type(res1) is getTypeLanguage(val3):
 				if var == 0:
 					lista = dicGlobal.get(val4)
@@ -418,9 +419,14 @@ if __name__ == "__main__":
 				elif var == 1:
 					lista = funcMem[Scope][val3].get(val4)
 					funcMem[Scope][1][lista[val3]][lista[1]] = res1
+				if val3 == CHAR and len(res1) > 1:
+					print("Type mismatch, unsopported string as char")
+					ventana.close()
+					sys.exit(1)
 			else:
 				print("Type mismatch, unsopported value")
-				exit(1);
+				ventana.close()
+				sys.exit(1)
 
 		elif cuadruplo[0] == 'PRINT':
 			val = valorDireccion(val4)
@@ -467,6 +473,7 @@ if __name__ == "__main__":
 				asignarTemporales(True, val4)
 			else:
 				print "Error variable try to access as an array"
+				ventana.close()
 				sys.exit(1)
 		elif cuadruplo[0] == 'VER':
 			size = funcMem[Scope][0].get(val2)[2] if scopeVar(val2) == 1 else dicGlobal.get(val2)[2]
@@ -476,6 +483,7 @@ if __name__ == "__main__":
 				asignarTemporales(pos, val4)
 			else:
 				print "Index out of bounce"
+				ventana.close()
 				sys.exit(1)
 		elif cuadruplo[0] == 'RES':
 			lista = funcMem[Scope][0].get(val2) if scopeVar(val2) == 1 else dicGlobal.get(val2)
