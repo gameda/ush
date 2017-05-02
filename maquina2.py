@@ -38,24 +38,25 @@ def memoriaGlobal():
 		direc = Globales.get(key).getDireccion()
 		tipo = Globales.get(key).getTipo()
 		size = 1 if Globales.get(key).getSize() < 1 else Globales.get(key).getSize()
+		size2 = Globales.get(key).getSize()
 		if tipo == INT:
-			dicGlobal[direc] = [tipo, contInt]
+			dicGlobal[direc] = [tipo, contInt, size2]
 			for i in range(0, size):
 				contInt = contInt + 1
 		elif tipo == FLOAT:
-			dicGlobal[direc] = [tipo, contFloat]
+			dicGlobal[direc] = [tipo, contFloat, size2]
 			for i in range(0, size):
 				contFloat + contFloat + 1
 		elif tipo == CHAR:
-			dicGlobal[direc] = [tipo, contChar]
+			dicGlobal[direc] = [tipo, contChar, size2]
 			for i in range(0, size):
 				contChar = contChar + 1
 		elif tipo == STR:
-			dicGlobal[direc] = [tipo, contString]
+			dicGlobal[direc] = [tipo, contString, size2]
 			for i in range(0, size):
 				contString = contString + 1
 		elif tipo == BOOL:
-			dicGlobal[direc] = [tipo, contBoolean]
+			dicGlobal[direc] = [tipo, contBoolean, size2]
 			for i in range(0, size):
 				contBoolean = contBoolean + 1
 		for i in range(0, size):
@@ -87,24 +88,25 @@ def memoriaMain():
 		direc = dicMain.get(key).getDireccion()
 		tipo = dicMain.get(key).getTipo()
 		size = 1 if dicMain.get(key).getSize() < 1 else dicMain.get(key).getSize()
+		size2 = dicMain.get(key).getSize()
 		if tipo == INT:
-			dicFun[direc] = [tipo, contInt]
+			dicFun[direc] = [tipo, contInt, size2]
 			for i in range(0, size):
 				contInt = contInt + 1
 		elif tipo == FLOAT:
-			dicFun[direc] = [tipo, contFloat]
+			dicFun[direc] = [tipo, contFloat, size2]
 			for i in range(0, size):
 				contFloat + contFloat + 1
 		elif tipo == CHAR:
-			dicFun[direc] = [tipo, contChar]
+			dicFun[direc] = [tipo, contChar, size2]
 			for i in range(0, size):
 				contChar = contChar + 1
 		elif tipo == STR:
-			dicFun[direc] = [tipo, contString]
+			dicFun[direc] = [tipo, contString, size2]
 			for i in range(0, size):
 				contString = contString + 1
 		elif tipo == BOOL:
-			dicFun[direc] = [tipo, contBoolean]
+			dicFun[direc] = [tipo, contBoolean, size2]
 			for i in range(0, size):
 				contBoolean = contBoolean + 1
 		for i in range(0, size):
@@ -210,7 +212,10 @@ def scopeVar(direc):
 ##############################################################
 def valorDireccion(direc):
 	if(isinstance(direc, list)):
-		return funcMem[Scope][1][direc[0]][direc[1]]
+		if direc[2] == 1:
+			return funcMem[Scope][1][direc[0]][direc[1]]
+		else:
+			return varGlobales[direc[0]][direc[1]]
 	var = scopeVar(direc)
 	#Si var es igual a 0, es una variable global, y regresa su valor 
 	if(var == 0): 
@@ -395,25 +400,32 @@ if __name__ == "__main__":
 				funcMem[Scope][1] = varsFun
 			elif(isinstance(valorDireccion(val4), list)):
 				direc = valorDireccion(val4)
-				funcMem[Scope][1][direc[0]][direc[1]] = res1
+				if(direc[2] == 1):
+					funcMem[Scope][1][direc[0]][direc[1]] = res1
+				else:
+					#print("RES", res1, direc)
+					varGlobales[direc[0]][direc[1]] = res1
 			elif var == 2:
 				asignarTemporales(res1, val4)
 				
 		elif cuadruplo[0] == 'READ':
-			res1 = float(input())
+			res1 = input()
 			var = scopeVar(val4)
-
-			if var == 0:
-				lista = dicGlobal.get(val4)
-				varGlobales[lista[0]][lista[1]] = res1
-			elif var == 1:
-				lista = funcMem[Scope][0].get(val4)
-				funcMem[Scope][1][lista[0]][lista[1]] = res1
+			if type(res1) is getTypeLanguage(val3):
+				if var == 0:
+					lista = dicGlobal.get(val4)
+					varGlobales[lista[val3]][lista[1]] = res1
+				elif var == 1:
+					lista = funcMem[Scope][val3].get(val4)
+					funcMem[Scope][1][lista[val3]][lista[1]] = res1
+			else:
+				print("Type mismatch, unsopported value")
+				exit(1);
 
 		elif cuadruplo[0] == 'PRINT':
 			val = valorDireccion(val4)
 			if isinstance(val, list):
-				val = funcMem[Scope][1][val[0]][val[1]]
+				val = funcMem[Scope][1][val[0]][val[1]] if val[2] == 1 else varGlobales[val[0]][val[1]]
 			print val
 
 		elif cuadruplo[0] == 'GOTOF':
@@ -450,35 +462,37 @@ if __name__ == "__main__":
 		
 		#Arreglos
 		elif cuadruplo[0] == 'VAL':
-			if funcMem[Scope][0].get(val2)[2] > 0:
+			size = funcMem[Scope][0].get(val2)[2] if scopeVar(val2) == 1 else dicGlobal.get(val2)[2]
+			if size > 0:
 				asignarTemporales(True, val4)
 			else:
 				print "Error variable try to access as an array"
 				sys.exit(1)
 		elif cuadruplo[0] == 'VER':
+			size = funcMem[Scope][0].get(val2)[2] if scopeVar(val2) == 1 else dicGlobal.get(val2)[2]
 			pos = valorDireccion(val3)
-			print (funcMem[Scope][0].get(val2)[2], pos, val3, funcMem[Scope][0])
-			if pos > -1 and pos < funcMem[Scope][0].get(val2)[2]:
+			#print (size, pos, val3, funcMem[Scope][0])
+			if pos > -1 and pos < size:
 				asignarTemporales(pos, val4)
 			else:
 				print "Index out of bounce"
 				sys.exit(1)
 		elif cuadruplo[0] == 'RES':
-			lista = funcMem[Scope][0].get(val2)
+			lista = funcMem[Scope][0].get(val2) if scopeVar(val2) == 1 else dicGlobal.get(val2)
 			valor = valorDireccion(val3)
-			direc = [lista[0],lista[1] + valor]
+			direc = [lista[0],lista[1] + valor, scopeVar(val2)]
 			asignarTemporales(direc, val4)
 		
 		#Grafico
 		elif cuadruplo[0] == "DOT":
-			cuad = getCuadruplo(cuadruplo[cuadruploActual])
+			cuad = getCuadruplo(lista_cuadruplos[cuadruploActual])
 			p = Point(cuad[1], cuad[2])
 			p.setFill(cuad[3])
 			p.draw(ventana)
 
 		elif cuadruplo[0] == "LINE":
-			cuad1 = getCuadruplo(cuadruplo[cuadruploActual])
-			cuad2 = getCuadruplo(cuadruplo[cuadruploActual + 1])
+			cuad1 = getCuadruplo(lista_cuadruplos[cuadruploActual])
+			cuad2 = getCuadruplo(lista_cuadruplos[cuadruploActual + 1])
 			line = Line(Point(cuad1[1], cuad1[2]), Point(cuad2[0], cuad2[1]))
 			line.setFill(cuad1[3])
 			line.setWidth(cuad2[2])
@@ -486,18 +500,19 @@ if __name__ == "__main__":
 			cuadruploActual = cuadruploActual + 1
 
 		elif cuadruplo[0] == "TRI":
-			cuad1 = getCuadruplo(cuadruplo[cuadruploActual])
-			cuad2 = getCuadruplo(cuadruplo[cuadruploActual + 1])
-			cuad3 = getCuadruplo(cuadruplo[cuadruploActual + 2])
+			cuad1 = getCuadruplo(lista_cuadruplos[cuadruploActual])
+			cuad2 = getCuadruplo(lista_cuadruplos[cuadruploActual + 1])
+			cuad3 = getCuadruplo(lista_cuadruplos[cuadruploActual + 2])
 			tri = Polygon(Point(cuad1[1], cuad1[2]), Point(cuad2[0], cuad2[1]), Point(cuad2[2], cuad2[3]))
 			tri.setFill(cuad1[3])
+			tri.setOutline(cuad1[3])
 			tri.setWidth(cuad3[0])
 			tri.draw(ventana)
 			cuadruploActual = cuadruploActual + 2
 
 		elif cuadruplo[0] == "SQUARE":
-			cuad1 = getCuadruplo(cuadruplo[cuadruploActual])
-			cuad2 = getCuadruplo(cuadruplo[cuadruploActual + 1])
+			cuad1 = getCuadruplo(lista_cuadruplos[cuadruploActual])
+			cuad2 = getCuadruplo(lista_cuadruplos[cuadruploActual + 1])
 			sq = Rectangle(Point(float(cuad1[1]), float(cuad1[2])), Point(float(cuad2[0] + cuad2[2]), float(cuad2[1] + cuad2[2])))
 			sq.setFill(cuad1[3])
 			sq.setOutline(cuad1[3])
@@ -505,24 +520,24 @@ if __name__ == "__main__":
 			sq.draw(ventana)
 			cuadruploActual = cuadruploActual + 1
 
-		elif cuadruplo[0] == "QUAD":
-			cuad1 = getCuadruplo(cuadruplo[cuadruploActual])
-			cuad2 = getCuadruplo(cuadruplo[cuadruploActual + 1])
-			sq = Rectangle(Point(float(cuad1[1]), float(cuad1[2])), Point(float(cuad2[0]), float(cuad2[1])))
-			sq.setFill(cuad1[3])
-			sq.setOutline(cuad1[3])
-			sq.setWidth(cuad2[2])
-			sq.draw(ventana)
+		elif cuadruplo[0] == "RECT":
+			cuad1 = getCuadruplo(lista_cuadruplos[cuadruploActual])
+			cuad2 = getCuadruplo(lista_cuadruplos[cuadruploActual + 1])
+			rc = Rectangle(Point(float(cuad1[1]), float(cuad1[2])), Point(float(cuad2[0]), float(cuad2[1])))
+			rc.setFill(cuad1[3])
+			rc.setOutline(cuad1[3])
+			rc.setWidth(cuad2[2])
+			rc.draw(ventana)
 			cuadruploActual = cuadruploActual + 1
 
-		elif listCuadruplos[cuadruploActual][0] == "CIR":
-			cuad1 = getCuadruplo(cuadruplo[cuadruploActual])
-			cuad2 = getCuadruplo(cuadruplo[cuadruploActual + 1])
+		elif cuadruplo[0] == "CIR":
+			cuad1 = getCuadruplo(lista_cuadruplos[cuadruploActual])
+			cuad2 = getCuadruplo(lista_cuadruplos[cuadruploActual + 1])
 			cir = Circle(Point(float(cuad1[1]), float(cuad1[2])), float(cuad1[3]))
-			cir.setFill(getColor(cuad2[0]))
-			cir.setOutline(getColor(cuad2[0]))
+			cir.setFill(cuad2[2])
+			cir.setOutline(cuad2[2])
 			cir.setWidth(cuad2[1])
-			cir.draw(win)
+			cir.draw(ventana)
 			cuadruploActual = cuadruploActual + 1
 
 		elif cuadruplo[0] == 'END':

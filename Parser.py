@@ -75,6 +75,8 @@ color = ""
 
 #Arreglos
 isArray = False
+arraySize = -1
+arrayType = -1
 
 ###########################################################################
 #   existMetodos
@@ -226,6 +228,16 @@ def asignaSalto(cuad, pos):
     global listCuadruplos
     listCuadruplos[pos][3] = cuad
 
+###########################################################################
+#  operacionArreglo
+#  Agrega los cuadruplos de arreglos para memoria
+###########################################################################
+def operacionArreglo(var, pos):
+    global contTemp
+    cuadruplo('VAL', var, None, contTemp)
+    cuadruplo('VER', var, pos, contTemp + 1)
+    cuadruplo('RES', var, contTemp + 1, contTemp + 2)
+    contTemp = contTemp + 3
 
 ###########################################################################
 #   p_programa
@@ -501,7 +513,19 @@ def p_return(p):
 ###########################################################################
 def p_lectura(p):
     'lectura : ID ASSIGN READ LEFTP RIGHTP SEMICOLON'
-    
+    if(dicGlobal.has_key(p[1])):
+        var = dicGlobal.get(p[1]).getDireccion()
+        tipo = dicGlobal.get(p[1]).getTipo()
+    elif(dicMain.has_key(p[1])):
+        var = dicMain.get(p[1]).getDireccion()
+        tipo = dicMain.get(p[1]).getTipo()
+    elif(diccionario_metodos.get(scopeActual).getHasVariable(p[1])):
+        var = diccionario_metodos.get(scopeActual).getVariable(p[1]).getDireccion()
+        tipo = diccionario_metodos.get(scopeActual).getVariable(p[1]).getTipo()
+    else:
+        error_variable_nodeclared(p[1])
+
+    cuadruplo("READ", None, tipo, var)
 
 
 ###########################################################################
@@ -583,11 +607,12 @@ def p_param(p):
 #   Regla de estatuto de asignación
 ###########################################################################
 def p_asignacion(p):
-    'asignacion : ID asign'
+    'asignacion : ID asigarray'
     global pilaTipos
     global pilaOperadores
     global pilaOperandos
     global isArray
+    global arraySize
     if(dicGlobal.has_key(p[1])):
         var = dicGlobal.get(p[1]).getDireccion()
         tipo = dicGlobal.get(p[1]).getTipo()
@@ -602,29 +627,38 @@ def p_asignacion(p):
         error_variable_nodeclared(p[1])
     #print pilaTipos.getList(), p[1], tipo, pilaTipos.top()
     if(resultante(tipo, pilaTipos.top(), IGUAL) != ERROR):
-        var = (contTemp - 1) if isArray else var
+        #print("Arreglo", isArray, arraySize)
+        if isArray:
+            operacionArreglo(var, arraySize)
+            var = contTemp - 1
         cuadruplo("=", pilaOperandos.pop(), None, var)
         pilaTipos.pop()
         pilaOperadores.pop()
         isArray = False
+
     else:
         error_semantic(p)
     #if pilaOperadores[-1] == "=":
         #cuadruplo(pilaOperadores[-1],  constantes.get(FLOAT), None, pilaOperandos[-1])
 
-
-
-
-
 def p_asignacion_array(p):
-    'asignacion : ID LEFTSB exp RIGHTSB asign'
-    global contTemp
+    'asigarray : LEFTSB exp RIGHTSB asign'
+    global pilaOperandos
     global isArray
-    cuadruplo('VAL', p[-1], None, contTemp)
-    cuadruplo('VER', p[-1], const_int - 1, contTemp + 1)
-    cuadruplo('RES', p[-1], contTemp + 1, contTemp + 2)
-    contTemp = contTemp + 3
+    global arraySize
+    global arrayType
+    aux = pilaOperandos.pop()
+    arraySize = pilaOperandos.pop()
+    pilaOperandos.append(aux)
+    aux = pilaTipos.pop()
+    arrayType = pilaTipos.pop()
+    pilaTipos.append(aux)
     isArray = True
+    if(arrayType != INT):
+        error_types(p)
+
+def p_asignacion_array_empty(p):
+    'asigarray : asign'
     
 def p_asign(p):
     'asign : ASSIGN exp SEMICOLON'
@@ -851,6 +885,7 @@ def p_operador4_id(p):
     global vars_dir
     global vars_dir_global
     global isArray
+    global arraySize
     scope = dicGlobal.has_key(p[1])
     if (scope or dicMain.has_key(p[1])):
         if scope:
@@ -877,23 +912,26 @@ def p_operador4_id(p):
 
     pilaTipos.append(tipo)
     if isArray:
+        operacionArreglo(var, arraySize)
         pilaOperandos.append(contTemp - 1)
         isArray = False
     else:
         pilaOperandos.append(var)
 
+def p_idarray_full(p):
+    'idarray : LEFTSB exp RIGHTSB'
+    global isArray
+    global pilaOperandos
+    global pilaTipos
+    global arraySize
+    tipo = pilaTipos.pop()
+    arraySize = pilaOperandos.pop()
+    if(tipo != INT):
+        error_types(p)
+    isArray = True
+
 def p_idarray_empty(p):
     'idarray : empty'
-
-def p_idarray_full(p):
-    'idarray : LEFTSB INT_CTE RIGHTSB'
-    global contTemp
-    global isArray
-    cuadruplo('VAL', p[-1], None, contTemp)
-    cuadruplo('VER', p[-1], const_int - 1, contTemp + 1)
-    cuadruplo('RES', p[-1], contTemp + 1, contTemp + 2)
-    contTemp = contTemp + 3
-    isArray = True
 
 def p_operador4_cons(p):
     'operador4 : constante'
@@ -972,41 +1010,41 @@ def p_constante_true(p):
 def p_dibujaPunto(p): 
     'dibujaPunto : DRAW_DOT LEFTP exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    y2 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    y2 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("DOT", x1, y2, color)
 
 def p_dibujaLinea(p): 
     'dibujaLinea : DRAW_LINE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    y2 = pilaOperandos.pop()
-    x2 = pilaOperandos.pop()
-    y2 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    y2 = pilaOperandos.pop(); pilaTipos.pop();
+    x2 = pilaOperandos.pop(); pilaTipos.pop();
+    y1 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("LINE", x1, y1, color)
     cuadruplo(x2, y2, w, None)
 
 def p_dibujaCirculo(p): 
     'dibujaCirculo : DRAW_CIRCLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    val3 = pilaOperandos.pop()
-    val2 = pilaOperandos.pop()
-    val1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    val3 = pilaOperandos.pop(); pilaTipos.pop();
+    val2 = pilaOperandos.pop(); pilaTipos.pop();
+    val1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("CIR", val1, val2, val3)
-    cuadruplos(color, w, None, None)
+    cuadruplo(None, w, color, None)
 
 def p_dibujaTriangulo(p): 
     'dibujaTriangulo : DRAW_TRIANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    y3 = pilaOperandos.pop()
-    x3 = pilaOperandos.pop()
-    y2 = pilaOperandos.pop()
-    x2 = pilaOperandos.pop()
-    y1 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    y3 = pilaOperandos.pop(); pilaTipos.pop();
+    x3 = pilaOperandos.pop(); pilaTipos.pop();
+    y2 = pilaOperandos.pop(); pilaTipos.pop();
+    x2 = pilaOperandos.pop(); pilaTipos.pop();
+    y1 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("TRI", x1, y1, color)
     cuadruplo(x2, y2, x3, y3)
     cuadruplo(w, None, None, None)
@@ -1014,35 +1052,35 @@ def p_dibujaTriangulo(p):
 def p_dibujaCuadrado(p): 
     'dibujaCuadrado : DRAW_SQUARE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    l = pilaOperandos.pop()
-    y1 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    l = pilaOperandos.pop(); pilaTipos.pop();
+    y1 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("SQUARE", x1, y1, color)
     cuadruplo(x1, y1, l, w)
 
 def p_dibujaRectangulo(p): 
     'dibujaRectangulo : DRAW_RECTANGLE LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    y2 = pilaOperandos.pop()
-    x2 = pilaOperandos.pop()
-    y1 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    y2 = pilaOperandos.pop(); pilaTipos.pop();
+    x2 = pilaOperandos.pop(); pilaTipos.pop();
+    y1 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("RECT", x1, y1, color)
     cuadruplo(x2, y2, w, None)
 def p_dibujaCuadrilatero(p): 
     'dibujaCuadrilatero : DRAW_QUADRITERAL LEFTP exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA exp COMMA color RIGHTP SEMICOLON'
     global pilaOperandos
-    w = pilaOperandos.pop()
-    y4 = pilaOperandos.pop()
-    x4 = pilaOperandos.pop()
-    y3 = pilaOperandos.pop()
-    x3 = pilaOperandos.pop()
-    y2 = pilaOperandos.pop()
-    x2 = pilaOperandos.pop()
-    y1 = pilaOperandos.pop()
-    x1 = pilaOperandos.pop()
+    w = pilaOperandos.pop(); pilaTipos.pop();
+    y4 = pilaOperandos.pop(); pilaTipos.pop();
+    x4 = pilaOperandos.pop(); pilaTipos.pop();
+    y3 = pilaOperandos.pop(); pilaTipos.pop();
+    x3 = pilaOperandos.pop(); pilaTipos.pop();
+    y2 = pilaOperandos.pop(); pilaTipos.pop();
+    x2 = pilaOperandos.pop(); pilaTipos.pop();
+    y1 = pilaOperandos.pop(); pilaTipos.pop();
+    x1 = pilaOperandos.pop(); pilaTipos.pop();
     cuadruplo("QUAD", x1, y1, color)
     cuadruplo(x2, y2, x3, y3)
     cuadruplo(x4, y4, w, None)
@@ -1055,7 +1093,12 @@ def p_color(p):
         | GREEN 
         | BLACK 
         | CYAN 
-        | WHITE'''
+        | WHITE
+        | FG 
+        | AW4
+        | MB
+        | SNOW
+        | LY'''
     global color
     color = p[1].replace('\'','')
 
@@ -1076,9 +1119,9 @@ def p_error(p):
         print("Syntax error at '%s' " % p.value)
         from Scanner import intline
         print("in line " + str(intline))
-        sys.exit()
     else:
         print("Syntax error at EOF")
+    sys.exit()
 
 def error_method(var):
     print ("Method '%s' already declared" % var)
@@ -1098,10 +1141,12 @@ def error_semantic(p):
     sys.exit()
 
 def error_types(p):
-    print ("Type mismatch at line: %s" % p)
+    print ("Type mismatch at line: %s" % p.lexer.lineno)
+    sys.exit()
 
 def error_params(p):
-    print ("Error in number of parameters in line: %s" % p)
+    print ("Error in number of parameters in line: %s" % p.lexer.lineno)
+    sys.exit()
 
 # Formar parser
 # yacc.yacc(method="SLR")

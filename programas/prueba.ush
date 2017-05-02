@@ -1,42 +1,19 @@
 program prueba:
 
 var int x, y[2];
-var string f, g;
-
-
-method void imprimir(int x) {
-	print(x);
-}
-
-method int num(int d) {
-	var float h;
-	drawDot(d,d,red);
-	return d;
-}
-
-
 
 
 void main() {
-	var int i, j, k[3];
-	var float i2;
-	var char c;
-	var string s;
-	s = "hola";
-	i=1;
-	j=0;
-	j = i + j;
+	var int k[3], i, j;
+	k[0] = 1;
+	k[1] = 2;
+	k[2] = 3;
 
-	c = 'a';
-	num(j);
-	print(j);
-
-	if(s == s)
-	{
-		while(i < 4)
-		{
-			i = 7;
-		}
-	}
-
+	i = k[0];
+	print(i);
+	
+	y[0] = 10;
+	y[1] = 11;
+	i = y[0];
+	print(i);
 }

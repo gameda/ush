@@ -77,7 +77,12 @@ reserved = {
     'green' : 'GREEN', 
     'black' : 'BLACK',
     'cyan' : 'CYAN',
-    'white' : 'WHITE' 
+    'white' : 'WHITE',
+    'ForestGreen' : 'FG',
+    'AntiqueWhite4' : 'AW4',
+    'snow' : 'SNOW',
+    'MidnightBlue' : 'MB',
+    'LightYellow' : 'LY'
 }
 
 # Agregar las palabras reservadas a la lista de tokens

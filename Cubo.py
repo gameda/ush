@@ -161,4 +161,15 @@ def getValor(tipo):
     elif tipo == BOOL:
         return False
 
-
+#Funcion regresa el valor convertido
+def getTypeLanguage(tipo):
+    if tipo == INT:
+        return int
+    elif tipo == FLOAT:
+        return float
+    elif tipo == CHAR:
+        return str
+    elif tipo == STR:
+        return str
+    elif tipo == BOOL:
+        return bool

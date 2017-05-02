@@ -1,6 +1,6 @@
 program test:
 
-var int i, j;
+var int i, j, ush[5];
 var string cad, num, num2;
 var char cOp, c1;
 var boolean funciona, b1;
@@ -45,15 +45,29 @@ method int sumaRec(int x)
 
 void main()
 {
-	var int sumX;
+	var int sumX, arr[5], it;
 	var string res;
 	funciona = false;
+	it = 0;
 	i = 1;
 	j = 2;
 	cad = "El resultado de ";
 	num = "1";
 	num2 = "2";
 	cOp = '+';
+	arr[0] = 5;
+	ush[0] = 2000;
+	print("El contenido de mi arreglo es:");
+	while(it < 5)
+	{
+		print(arr[it]);
+		it = it + 1;
+	}
+	print("Operaciones");
+	sumX = arr[0] + i;
+	print(sumX);
+	print(arr[0]);
+	print(ush[0]);
 
 	sumX = suma(i, j);
 	print(sumX);
