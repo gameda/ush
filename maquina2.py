@@ -411,7 +411,7 @@ if __name__ == "__main__":
 		elif cuadruplo[0] == 'READ':
 			res1 = input()
 			var = scopeVar(val4)
-			print(type(res1), getTypeLanguage(val3))
+			#print(type(res1), getTypeLanguage(val3))
 			if type(res1) is getTypeLanguage(val3):
 				if var == 0:
 					lista = dicGlobal.get(val4)

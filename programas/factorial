@@ -1,0 +1,36 @@
+program factorial:
+
+method int factorial(int x)
+{
+	var int aux;
+	if(x == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		aux = factorial(x - 1);
+		return x * aux;
+	}
+}
+
+void main()
+{
+	var int dato, factRec, factIT, res;
+
+	print("Ingrese el factorial que quiere calcular");
+	dato = read();
+
+	res = factorial(dato);
+	print("El factorial recursivo es:");
+	print(res);
+
+	res = 1;
+	while(dato > 0)
+	{
+		res = res * dato;
+		dato = dato - 1; 
+	}
+	print("El factorial iterativo es:");
+	print(res);
+}
