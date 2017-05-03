@@ -247,7 +247,7 @@ def p_programa(p):
     'programa :  PROGRAM ID COLON globales metodos goto_main'
     cuadruplo("END", None, None, None)
     p[0] = 'Correcto'
-    """
+    
     print "global"
     for s in dicGlobal:
         print dicGlobal.get(s).getNombre()
@@ -274,7 +274,7 @@ def p_programa(p):
     for i in listCuadruplos:
         print pos, i
         pos = pos + 1
-    """
+
 ###########################################################################
 #   p_goto_main
 #   Regla que sirve para aclarar que el primer método de la función debe
@@ -846,7 +846,6 @@ def p_exp3_vacio(p):
 def p_exp3_sum(p):
     'exp3 : SUM saveop operador3 exp3'
 
-
 def p_exp3_less(p):
     'exp3 : LESS saveop operador3 exp3'
 
@@ -923,16 +922,18 @@ def p_operador4_id(p):
         pilaOperandos.append(var)
 
 def p_idarray_full(p):
-    'idarray : LEFTSB exp RIGHTSB'
+    'idarray : LEFTSB fondofalso expresion RIGHTSB'
     global isArray
     global pilaOperandos
     global pilaTipos
     global arraySize
+    global pilaOperadores
     tipo = pilaTipos.pop()
     arraySize = pilaOperandos.pop()
     if(tipo != INT):
         error_types(p)
     isArray = True
+    pilaOperadores.pop()
 
 def p_idarray_empty(p):
     'idarray : empty'
@@ -941,8 +942,14 @@ def p_operador4_cons(p):
     'operador4 : constante'
 
 def p_operador4_exp(p):
-    'operador4 : LEFTP expresion RIGHTP'
+    'operador4 : LEFTP fondofalso expresion RIGHTP'
+    global pilaOperadores
+    pilaOperadores.pop()
 
+def p_fondofalso(p):
+    'fondofalso : empty'
+    global pilaOperadores
+    pilaOperadores.append("$")
 
 ###########################################################################
 #   p_constante

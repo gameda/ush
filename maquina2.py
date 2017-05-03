@@ -550,6 +550,8 @@ if __name__ == "__main__":
 
 		elif cuadruplo[0] == 'END':
 			cuadruploActual = cuadruploActual
+			print(varGlobales)
+			print(funcMem)
 		
 		cuadruploActual = cuadruploActual + 1
 	
