@@ -2,28 +2,26 @@ program sort:
 
  var int arr[10]; 
 	
-method void bubbleSort(int n) {
-    var int i, j, tmp;
-    var boolean flag;
-    flag = true;
-    tmp = 0;
-    j = 0;
-    i = 1;
-    while ((i < n) && flag) 
+method void ExchangeSort(int numLength)
+{
+     var int i, j;
+     var int temp;
+     i = 0;
+    while (i < (numLength - 1))    
     {
-    	flag = false;
-        while (j < (n - 1)) 
+    	j = i + 1;
+        while(j < numLength)   
         {
-          	if (arr[j + 1] > arr[j]) {
-            	tmp = arr[j];
-            	arr[j] = arr[j + 1];
-            	arr[j + 1] = tmp;
-            	flag = true;
-          	}
-        	j = j + 1; 
+            if (arr[i] < arr[j])          
+            {
+                temp= arr[i];          
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            j = j + 1;
         }
         i = i + 1;
-    }
+     }
 }
 
 method void imprime(){
@@ -51,7 +49,7 @@ void main (){
 		cont = cont + 1;
 	}
 	imprime();
-	bubbleSort(10);
+	ExchangeSort(10);
 	print("------------");
 	imprime();
 }	
