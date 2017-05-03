@@ -32,25 +32,9 @@ void main() {
 	x = 7.3; 
 	y = 10;
 
-	if(x < y){
-		j = 2;
+	print(x);
 
-	}
-	else{
-		i = 2; 
-	}
-
-
-	fun1();
-	i = algo(i + 2);
-
-	while( x > y) {
-		if(x > y) {
-			x = x + 1;
-		}
-		else {
-			print("hola");
-		}
-	}
+	x = x * x;
+	print(x);
 
 }

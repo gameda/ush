@@ -96,7 +96,7 @@ def memoriaMain():
 		elif tipo == FLOAT:
 			dicFun[direc] = [tipo, contFloat, size2]
 			for i in range(0, size):
-				contFloat + contFloat + 1
+				contFloat = contFloat + 1
 		elif tipo == CHAR:
 			dicFun[direc] = [tipo, contChar, size2]
 			for i in range(0, size):
@@ -236,7 +236,7 @@ def valorDireccion(direc):
 		return constantes[INT][direc - 1000000]
 
 	elif(2000000 <= direc and direc < 3000000):
-		return constante[FLOAT][direc - 2000000]
+		return constantes[FLOAT][direc - 2000000]
 
 	elif(3000000 <= direc and direc < 4000000):
 		return constantes[CHAR][direc - 3000000]
@@ -549,6 +549,7 @@ if __name__ == "__main__":
 			cuadruploActual = cuadruploActual + 1
 
 		elif cuadruplo[0] == 'END':
+			#print(funcMem)
 			cuadruploActual = cuadruploActual
 		
 		cuadruploActual = cuadruploActual + 1
