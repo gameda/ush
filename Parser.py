@@ -247,7 +247,7 @@ def p_programa(p):
     'programa :  PROGRAM ID COLON globales metodos goto_main'
     cuadruplo("END", None, None, None)
     p[0] = 'Correcto'
-    
+    """
     print "global"
     for s in dicGlobal:
         print dicGlobal.get(s).getNombre()
@@ -274,7 +274,7 @@ def p_programa(p):
     for i in listCuadruplos:
         print pos, i
         pos = pos + 1
-
+    """
 ###########################################################################
 #   p_goto_main
 #   Regla que sirve para aclarar que el primer método de la función debe

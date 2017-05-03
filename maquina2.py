@@ -380,7 +380,7 @@ if __name__ == "__main__":
 		elif cuadruplo[0] == '=':
 			res1 = valorDireccion(val2)
 			var = scopeVar(val4)
-			#res1 = isList(res1)
+			res1 = isList(res1)
 			#print (res1, var, dicGlobal.get(val4),funcMem[Scope][0].get(val4), valorDireccion(val4))
 			if var == 0:
 				lista = dicGlobal.get(val4)
@@ -550,8 +550,6 @@ if __name__ == "__main__":
 
 		elif cuadruplo[0] == 'END':
 			cuadruploActual = cuadruploActual
-			print(varGlobales)
-			print(funcMem)
 		
 		cuadruploActual = cuadruploActual + 1
 	
