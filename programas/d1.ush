@@ -1,0 +1,18 @@
+program dibuja1:
+
+method void dibuja(int x){
+	drawDot(10,500,blue);
+	drawLine(100, 100, 200, 200, 2, red);
+	drawCircle(500, 500, 30, 1, green);
+	drawTriangle(300, 300, 300, 400, 500, 400, 1, yellow);
+	drawSquare(100, 100, 20, 1, cyan); 
+	drawRectangle(50, 100, 100, 200, 1, brown1);
+}
+
+
+void main(){
+	var int x; 
+	x = 50; 
+	dibuja(x);
+
+}

@@ -5,7 +5,7 @@ var int arr[5];
 method void find(int x)
 {
 	var int cont, res;
-	res = 0;
+	res = 6;
 	cont = 0;
 	while(cont < 5)
 	{

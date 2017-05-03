@@ -21,10 +21,12 @@ void main()
 	print("Ingrese el factorial que quiere calcular");
 	dato = read();
 
+#Factorial Recuersivo 
 	res = factorial(dato);
 	print("El factorial recursivo es:");
 	print(res);
 
+#Factorial Ciclico
 	res = 1;
 	while(dato > 0)
 	{

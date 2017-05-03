@@ -89,7 +89,7 @@ reserved = {
 tokens += reserved.values()
 
 # Expresiones regulares de los tokens
-t_ignore    = ' \t'
+t_ignore    = ' \r\t'
 t_LEFTSB = r'\['
 t_RIGHTSB = r'\]'
 t_COMMA = r'\,'

@@ -1,0 +1,41 @@
+program fibonacci:
+
+method int fibonacci(int n){
+  var int aux , aux2, res;
+  if(n < 2){
+    return 1; 
+  }
+  else {
+    aux = fibonacci(n - 1);
+    aux2 = fibonacci(n - 2);
+    res = aux + aux2;
+    return res;
+  }
+}
+
+void main(){
+   
+   var int dato, res, i, fib1, fib2;
+
+  print("Teclea el valor de n: ");
+  dato = read(); 
+  res = fibonacci(dato - 1);
+  print("Fibonacci recursivo es:");
+  print(res);
+
+  i = 1; 
+  fib1 = 0; 
+  fib2 = 1;
+  print("Fibonacci ciclico es:");
+  while (i < (dato)){
+    res = fib1 + fib2; 
+    fib1 = fib2; 
+    fib2 = res; 
+    i = i + 1; 
+  }
+  print(res);
+
+
+}
+
+
